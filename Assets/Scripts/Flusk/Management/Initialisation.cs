@@ -10,7 +10,12 @@ namespace Flusk.Management
         public static void StartUp ()
         {
             GameObject mainPrefab = Resources.Load(PATH) as GameObject;
-            var mp = mainPrefab.GetComponent<MainPrefab>();
+            if (mainPrefab == null)
+            {
+                Debug.LogErrorFormat("[Initialisation] {0} DOES NOT EXIST!", PATH);
+                return;
+            }
+            MainPrefab mp = mainPrefab.GetComponent<MainPrefab>();
             mp.ForceSet();
             mp.Initialise();
         }

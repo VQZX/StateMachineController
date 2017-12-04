@@ -12,7 +12,7 @@ namespace Flusk.Management
 
         public static void Load()
         {
-            (Instance as MainPrefab).Initialise();
+            Instance.Initialise();
         }
 
         public void Initialise()

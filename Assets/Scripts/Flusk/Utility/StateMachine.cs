@@ -5,20 +5,22 @@ namespace Flusk.Utility
     public class StateMachine<TState> where TState : IState
     {
         protected List<TState> states;
-        public IState CurrentState {get; protected set;}
+        public TState CurrentState { get; protected set; }
+        public int CurrentStateIndex { get; protected set; }
 
         public StateMachine()
         {
             states = new List<TState>();
         }
-        public virtual void AddState (TState state)
+
+        public virtual void AddState(TState state)
         {
             states.Add(state);
         }
 
-        public void Tick ()
+        public void Tick()
         {
-            if ( CurrentState == null )
+            if (CurrentState == null)
             {
                 return;
             }
@@ -28,13 +30,20 @@ namespace Flusk.Utility
         public virtual void ChangeState(IState state)
         {
             var previousState = CurrentState;
-            if ( CurrentState != null )
+            if (CurrentState != null)
             {
                 CurrentState.Exit(state);
             }
-            CurrentState = state;
+            CurrentState = (TState) state;
             CurrentState.Enter(previousState);
+
+            // find state index
+            CurrentStateIndex = states.FindIndex(EqualState);
+        }
+
+        private bool EqualState(TState a)
+        {
+            return a.GetType() == CurrentState.GetType();
         }
     }
-
 }
