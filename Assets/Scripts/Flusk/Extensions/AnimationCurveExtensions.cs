@@ -1,4 +1,3 @@
-using NeonRattie.Objects;
 using UnityEngine;
 
 namespace Flusk.Extensions
